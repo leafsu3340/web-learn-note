@@ -1,0 +1,33 @@
+<script>
+  /* generator */
+  // function* gen(x) {
+  //   console.log('step1', y)
+  //   var y = yield x + 2;
+
+  //   console.log('step2', x, y)
+  //   y = yield y + 3;
+
+  //   console.log('step3', x, y)
+  //   return y + 123;
+  // }
+
+  // var ge = gen(1);
+  // console.log(ge.next(11))
+  // console.log(ge.next(22))
+  // console.log(ge.next(33))
+  // console.log(ge.next(44))
+
+function* a() {yield 1; yield 2; yield 3;}
+function* b() {yield 4; yield* a(); yield 5;}
+function* c() {yield 6; yield* b(); yield 7;}
+var cc = c();
+console.log(cc.next())
+console.log(cc.next())
+console.log(cc.next())
+console.log(cc.next())
+console.log(cc.next())
+console.log(cc.next())
+console.log(cc.next())
+
+
+</script>
