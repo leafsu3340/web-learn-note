@@ -57,6 +57,14 @@ function* fetchResource(resource) {
 }
 ```
 
+当页面触发了对应的 action 时，除了会去寻找对应的 reducer（找不到也没事），进行操作；也会触发 saga 监听的 action，进行异步请求等操作。
+
+- fork  创建一个新进程或线程，并发发送请求 （非阻塞）
+- call  发送api请求（阻塞）
+- all   跟 fork 一样，同时并发多个 action，没有顺序。
+- put   发送对应的 dispatch，触发对应的 action
+- takeEvery  监听对应的 action；每一次 dispatch 都会触发；例如：点击一个新增的按钮，2s 后触发新增动作，在2s内不断点击按钮，这时候，每一次点击，都是有效的。
+- takeLatest  监听对应的 action；只会触发最后一次 dispatch；例如：点击一个新增的按钮，2s 后触发新增动作，在2s内不断点击按钮，这时候，只有最后一次点击是有效的。
 
 
 
