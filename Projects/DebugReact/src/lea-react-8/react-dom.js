@@ -4,7 +4,7 @@
 // 根节点 fiber
 let wipRoot = null;
 function render(vnode, container) {
-  // console.log("vnode", vnode); //sy-log
+  console.log("vnode-render", vnode); //sy-log
   // // vnode -> node
   // const node = createNode(vnode);
   // // node插入到container中
@@ -12,7 +12,7 @@ function render(vnode, container) {
 
   wipRoot = {
     type: "div",
-    props: {children: {...vnode}},
+    props: { children: { ...vnode } },
     stateNode: container,
   };
   nextUnitOfWork = wipRoot;
@@ -59,7 +59,7 @@ function updateHostComponent(workInProgress) {
   // 齐家
   // 协调子节点
   reconcileChildren(workInProgress, workInProgress.props.children);
-  console.log("workInProgress", workInProgress); //sy-log
+  console.log("workInProgress---------------", workInProgress); //sy-log
 }
 
 // 文本
@@ -70,24 +70,23 @@ function updateTextCompoent(workInProgress) {
 }
 
 function updateFunctionComponent(workInProgress) {
-  const {type, props} = workInProgress;
+  const { type, props } = workInProgress;
   const children = type(props);
   reconcileChildren(workInProgress, children);
 }
 
-function updateClassComponent(vnode) {
-  const {type, props} = vnode;
+function updateClassComponent(workInProgress) {
+  const { type, props } = workInProgress;
   const instance = new type(props);
-  const vvnode = instance.render();
-  const node = createNode(vvnode);
-  return node;
+  const children = instance.render();
+  reconcileChildren(workInProgress, children);
 }
 
 function updateFragmentComponent(workInProgress) {
   reconcileChildren(workInProgress, workInProgress.props.children);
 }
 
-// 最假的吧，但是做的也是遍历子节点
+// 最佳的吧，但是做的也是遍历子节点
 function reconcileChildren(workInProgress, children) {
   if (isString(children)) {
     return;
@@ -95,13 +94,13 @@ function reconcileChildren(workInProgress, children) {
 
   let newChildren = Array.isArray(children) ? children : [children];
 
-  let previousNewFiber = null;
+  let previousNewFiber = null; // TAG 巧妙的缓存
   for (let i = 0; i < newChildren.length; i++) {
     let child = newChildren[i];
 
     let newFiber = {
       type: child.type, // 类型
-      props: {...child.props}, // 属性
+      props: { ...child.props }, // 属性
       stateNode: null, //如果是原生标签，代表dom节点，如果是类组件就代表实例
       child: null, // 第一个子节点 fiber
       sibling: null, // 下一个兄弟节点  fiber
@@ -116,12 +115,13 @@ function reconcileChildren(workInProgress, children) {
       // 第一个子fiber
       workInProgress.child = newFiber;
     } else {
-      previousNewFiber.sibling = newFiber;
+      previousNewFiber.sibling = newFiber; // TAG 巧妙的缓存
     }
-    previousNewFiber = newFiber;
+    previousNewFiber = newFiber; // TAG 巧妙的缓存
   }
 }
 
+// TAG fiber 一种链式数据结构，深度优先遍历，child,sibling,return 的组合记住了下一步指针指向
 // fiber 数据结构
 // type
 // props
@@ -134,12 +134,14 @@ function reconcileChildren(workInProgress, children) {
 // work in progress 当前正在执行当中的
 function performNextUnitWork(workInProgress) {
   // step1 执行当前任务
-  const {type} = workInProgress;
+  const { type } = workInProgress;
   if (isString(type)) {
     // 原生标签
-    updateHostComponent(workInProgress);
+    updateHostComponent(workInProgress); // TAG fiber接口在update*这类函数中得到更新
   } else if (typeof type === "function") {
-    updateFunctionComponent(workInProgress);
+    type.prototype.isReactComponent
+      ? updateClassComponent(workInProgress)
+      : updateFunctionComponent(workInProgress);
   } else if (typeof type === "undefined") {
     // 文本
     updateTextCompoent(workInProgress);
@@ -169,7 +171,7 @@ function workLoop(IdleDeadline) {
     nextUnitOfWork = performNextUnitWork(nextUnitOfWork);
   }
 
-  // 没有任务就提交
+  // 没有任务就提交渲染
   if (!nextUnitOfWork && wipRoot) {
     commitRoot();
   }
@@ -180,8 +182,9 @@ function workLoop(IdleDeadline) {
 requestIdleCallback(workLoop);
 
 function commitRoot() {
+  // 提交渲染
   commitWorker(wipRoot.child);
-  wipRoot = null;
+  wipRoot = null; // 渲染完成后清空，现在看的是第一次渲染的流程，不涉及更新
 }
 function commitWorker(workInProgress) {
   if (!workInProgress) {
@@ -192,11 +195,12 @@ function commitWorker(workInProgress) {
   let parentNodeFiber = workInProgress.return;
 
   while (!parentNodeFiber.stateNode) {
-    parentNodeFiber = parentNodeFiber.return;
+    parentNodeFiber = parentNodeFiber.return; // 极限情况下，一直嵌套的是组件，一直往上找，总有node节点
   }
 
   let parentNode = parentNodeFiber.stateNode;
   if (workInProgress.stateNode) {
+    // 判断当前节点是否是node节点，也有可能是组件节点
     parentNode.appendChild(workInProgress.stateNode);
   }
 
@@ -206,4 +210,4 @@ function commitWorker(workInProgress) {
   commitWorker(workInProgress.sibling);
 }
 
-export default {render};
+export default { render };
