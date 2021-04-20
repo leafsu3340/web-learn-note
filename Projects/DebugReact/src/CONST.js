@@ -10,7 +10,7 @@
 
 import React from "./kreact-old";
 // import {useState} from "./kreact-old/react-dom";
-import ReactDOM, { useState } from "./lea-react-9/react-dom";
+import ReactDOM, { useState } from "./lea-react-10/react-dom";
 import Component from "./kreact-old/Component";
 
 export { React, ReactDOM, useState, Component };

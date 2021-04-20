@@ -1,7 +1,7 @@
 // import * as React from "react";
 // import * as ReactDOM from "react-dom";
 
-import ReactDOM from "./lea-react-9/react-dom";
+import ReactDOM from "./lea-react-10/react-dom";
 // import Component from "./lea-react/Component";
 
 import "./index.css";
