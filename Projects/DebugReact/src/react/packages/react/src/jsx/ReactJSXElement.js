@@ -273,7 +273,7 @@ export function jsx(type, config, maybeKey) {
  * @param {string} key
  */
 export function jsxDEV(type, config, maybeKey, source, self) {
-  console.log('jsxDEV', arguments); //sy-log
+  // console.log('jsxDEV', arguments); //sy-log
 
   if (__DEV__) {
     let propName;

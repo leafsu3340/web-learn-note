@@ -1,4 +1,4 @@
-import { React, Component } from "../CONST";
+import { React, Component, useState } from "../CONST";
 
 class ClassComponent extends Component {
   render() {
@@ -7,10 +7,17 @@ class ClassComponent extends Component {
 }
 
 function FunctionComponent({ name }) {
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
   return (
     <div className="function border">
-      {name}
-      <button onClick={() => console.log("omg")}>click</button>
+      <p>{name}</p>
+      <button onClick={() => setCount(count+1)}>{count}</button>
+      <button onClick={() => setCount2(count2 + 1)}>{count2}</button>
+      <button onClick={() => setCount3(count3 + 1)}>{count3}</button>
+
+      {count % 2 ? <div>omg</div> : <button>123</button>}
     </div>
   );
 }

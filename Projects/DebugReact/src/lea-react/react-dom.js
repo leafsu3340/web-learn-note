@@ -2,7 +2,7 @@
 // node 真实dom节点
 
 function render(vnode, container) {
-  console.log("vnode", vnode); //sy-log
+  // console.log("vnode", vnode); //sy-log
 
   // vnode -> node
   const node = createNode(vnode);
@@ -70,7 +70,7 @@ function updateTextCompoent(vnode) {
 function updateFunctionComponent(vnode) {
   const { type, props } = vnode; // 函数组件：type是构造函数
   const vvnode = type(props);
-  console.log('函数组件-------', vvnode)
+  // console.log('函数组件-------', vvnode)
   const node = createNode(vvnode);
   return node;
 }
@@ -79,7 +79,7 @@ function updateClassComponent(vnode) {
   const { type, props } = vnode;
   const instance = new type(props);  // 类组件：type是类
   const vvnode = instance.render();
-  console.log('类组件-----', vvnode)
+  // console.log('类组件-----', vvnode)
   const node = createNode(vvnode);
   return node;
 }
