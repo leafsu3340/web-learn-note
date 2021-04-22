@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "kkb": "./bin/kkb.js"
+  },
   "directories": {
     "lib": "lib"
   },
@@ -12,6 +15,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^7.2.0"
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "commander": "^4.1.1",
+    "download-git-repo": "^3.0.2",
+    "figlet": "^1.3.0",
+    "handlebars": "^4.7.3",
+    "open": "^7.0.3",
+    "ora": "^4.0.3",
+    "watch": "^1.0.2"
   }
 }
