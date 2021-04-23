@@ -38,3 +38,10 @@ screenshot
 .eslintcache
 
 build
+
+/node_modules/
+package-lock.json
+/idea/
+**/*/node_modules/
+
+.DS_Store
