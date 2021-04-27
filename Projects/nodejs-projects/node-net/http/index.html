@@ -1,0 +1,39 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    // const img = new Image()
+    // img.src='/api/users?abc=123'
+    (async () => {
+        axios.defaults.baseURL = 'http://localhost:3000'
+
+        // TAG 如果要携带cookie信息，则请求变为credential请求，axios默认不开启
+        axios.defaults.withCredentials = true // TAG withCredentials开启，服务才能从request.header中获取cookie
+        const res = await axios.get("/api/users", {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // TAG header中只有原有属性的属于（简单请求）
+                'X-Token': 'jilei'  // TAG 添加自定义请求头使得请求编程preflight （复杂请求）
+            }
+        })
+        //,{headers:{'X-Token':'jilei'}}
+
+        console.log('data', res.data)
+
+        // document.writeln(`Response : ${JSON.stringify(res.data)}`)
+
+        await axios.post("/api/save", { a: 1, b: 2 },
+            {
+                headers: {
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Token': 'jilei'
+                },
+            })
+        // await axios.post("/api/save", {
+        //     a: 1,
+        //     b: 2
+        // })
+    })()
+</script>
+
+<form action="/api/saveform" method="post">
+    <input type="text" name="abc" value="123">
+    <input type="submit" value="save">
+</form>

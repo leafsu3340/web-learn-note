@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    window.onload = function () {
+      var files = document.getElementsByTagName('input')
+      var len = files.length;
+      var file;
+      for (var i = 0; i < len; i++) {
+        file = files[i];
+        if (file.type !== 'file') continue; // 不是文件类型的控件跳过
+        file.onchange = function () {
+          var _files = this.files; // 获取file文件数据
+          if (!_files.length) {
+            return;
+          }
+          if (_files.length == 1) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:3000/upload')
+            var filePath = _files[0].name //_files[0].value;
+            xhr.setRequestHeader('file-name', filePath) // filePath.substring(filePath.lastIndexOf('\\') + 1));
+            xhr.send(_files[0])
+          } else {
+            // 多个文件
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <input id='file1' type="file" />
+  <!-- <form action="/upload" method="POST">
+        <input type="file" name='file'>
+        <input type="text" name='name' value='abc'>
+        <input type="submit" name='upload'>
+    </form> -->
+</body>
+
+</html>
