@@ -2,7 +2,7 @@ const mysql = require("mysql2");
 // 连接配置
 const cfg = {
   host: "localhost",
-  user: "user",
+  user: "root",
   password: "12345678",
   database: "kaikeba",
 };
