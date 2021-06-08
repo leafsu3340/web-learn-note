@@ -1,0 +1,16 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                  "targets": {
+                    "edge": "17",
+                    "chrome": "67"
+                },
+                  "corejs": 2, //polyfill核心版本库，
+                  "useBuiltIns": "usage" //entry usage false
+            }
+        ],
+        "@babel/preset-react"
+    ]
+}
