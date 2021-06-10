@@ -2,6 +2,8 @@ const path = require("path");
 const htmlwebpackplugin = require("html-webpack-plugin");
 const MiNiCssExtractPlugin = require("mini-css-extract-plugin");
 
+const txtwebpackplugin = require("./myPlugins/txt-webpack-plugin.js");
+
 module.exports = {
   entry: {
     index: "./src/index.js",
@@ -66,5 +68,8 @@ module.exports = {
     new MiNiCssExtractPlugin({
       filename: "[name].css",
     }),
+    new txtwebpackplugin({
+      name: 'kkb'
+    })
   ],
 };

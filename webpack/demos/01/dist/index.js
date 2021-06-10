@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n    const tag = document.createElement(\"style\");\n    tag.innerHTML = \"body div {\\n  display: flex;\\n  height: 20px;\\n  border: 1px blue solid;\\n}\\n\";\n    document.head.appendChild(tag);\n  \n\n//# sourceURL=webpack:///./src/css/index.less?");
+eval("\n    const tag = document.createElement(\"style\");\n    tag.innerHTML = \"body {\\n  font-family: \\\"webfont\\\" !important;\\n}\\n\";\n    document.head.appendChild(tag);\n  \n\n//# sourceURL=webpack:///./src/css/index.less?");
 
 /***/ }),
 
