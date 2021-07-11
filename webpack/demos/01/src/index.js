@@ -1,10 +1,12 @@
 // import css from "./index.css";
 import css from "./css/index.less";
+import treeshaking from "./css/treeshaking.less";
 // import vue from "./index.vue";
 // import jsx from "./index.jsx";
 // import ts from "./index.ts";
 // import pic from "./index.png";
 // webpack4.x 0配置启动
+import { a, b } from './tool';
 
 // 局部安装
 // 全局安装webpack
@@ -23,3 +25,4 @@ import css from "./css/index.less";
 // module
 // bundle 资源经过webpack流程编译后最终输出的资源文件
 console.log("hello dengxiaodong.x");
+a();

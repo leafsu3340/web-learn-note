@@ -1,9 +1,10 @@
 const path = require("path");
-const htmlwebpackplugin = require("html-webpack-plugin");
 const MiNiCssExtractPlugin = require("mini-css-extract-plugin");
-
-const txtwebpackplugin = require("./myPlugins/txt-webpack-plugin.js");
-
+const htmlwebpackplugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const purifycss = require("purifycss-webpack"); // treeshaking css
+// const txtwebpackplugin = require("./myPlugins/txt-webpack-plugin.js");
+const glob = require("glob-all");
 module.exports = {
   entry: {
     index: "./src/index.js",
@@ -23,19 +24,19 @@ module.exports = {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
-      // {
-      //   test: /\.less/,
-      //   use: [
-      //     MiNiCssExtractPlugin.loader,
-      //     "css-loader",
-      //     "postcss-loader",
-      //     "less-loader",
-      //   ],
-      // },
       {
-        test: /\.less$/,
-        use: ["kkb-style-loader", "kkb-css-loader", "kkb-less-loader"],
+        test: /\.less/,
+        use: [
+          MiNiCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "less-loader",
+        ],
       },
+      // {
+      //   test: /\.less$/,
+      //   use: ["kkb-style-loader", "kkb-css-loader", "kkb-less-loader"],
+      // },
       {
         test: /\.js$/,
         use: [
@@ -48,28 +49,78 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            name: "[name].[ext]",
+            outputPath: "images",
+            publicPath: "../images/",
+            limit: 3 * 1024,
+          },
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            publicPath: "../",
+          },
+        },
+      },
+      {
+        test: /\.jsx$/,
+        use: "babel-loader",
+      },
       // {
       //   test: /\.vue/,
       //   use: ["vue-loader"],
       // },
     ],
   },
+  devtool: "inline-source-map",
+  devServer: {
+    contentBase: "./dist",
+    open: true,
+    port: 8081,
+    hot: true,
+    hotOnly: true, //关闭浏览器的刷新
+    proxy: {
+      "/api": {
+        target: "http://localhost:9092",
+      },
+    },
+  },
+  optimization: {
+    usedExports: true, // treeshaking js
+  },
   plugins: [
+    new purifycss({
+      paths: glob.sync([
+        path.resolve(__dirname, './src/*.html'),
+        path.resolve(__dirname, './src/*.js')
+      ])
+    }),
     new htmlwebpackplugin({
       template: "./src/index.html",
       filename: "index.html",
       chunks: ["index"],
+      // minify: true
     }),
     new htmlwebpackplugin({
-      template: "./src/index.html",
+      template: "./src/test.html",
       filename: "test.html",
       chunks: ["test"],
+      // minify: true
     }),
     new MiNiCssExtractPlugin({
       filename: "[name].css",
     }),
-    new txtwebpackplugin({
-      name: 'kkb'
-    })
+    new CleanWebpackPlugin(),
+    // new txtwebpackplugin({
+    //   name: 'kkb'
+    // })
   ],
 };

@@ -1,1 +1,14 @@
-body div{display:-webkit-box;display:-ms-flexbox;display:flex;height:20px;border:1px solid #00f}
+body {
+  font-family: "webfont" !important;
+}
+
+body #app {
+  width: 200px;
+  height: 200px;
+  background: url(images/logo.png);
+}
+
+body .test-span {
+  border: 1px solid red;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbmRleC5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/
