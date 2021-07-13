@@ -99,4 +99,4 @@ class UtilController extends BaseController {
   }
 }
 
-module.exports = UtilController;
+module.exports = UtilController

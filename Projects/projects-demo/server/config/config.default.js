@@ -1,6 +1,6 @@
 /* eslint valid-jsdoc: "off" */
 
-'use strict';
+'use strict'
 const path = require('path')
 
 /**
@@ -11,11 +11,11 @@ module.exports = appInfo => {
    * built-in config
    * @type {Egg.EggAppConfig}
    **/
-  const config = exports = {};
+  const config = exports = {}
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1625960988301_5933';
-  
+  config.keys = appInfo.name + '_1625960988301_5933'
+
   config.multipart = {
     mode: 'file',
     whitelist: () => true,
@@ -23,12 +23,12 @@ module.exports = appInfo => {
   config.UPLOAD_DIR = path.resolve(__dirname, '..', 'app/public')
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = []
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
-  };
+  }
 
   return {
     ...config,
@@ -49,5 +49,5 @@ module.exports = appInfo => {
     jwt: {
       secret: '@Kaikeba!123Abc!:',
     },
-  };
-};
+  }
+}

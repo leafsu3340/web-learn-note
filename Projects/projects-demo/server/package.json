@@ -46,11 +46,6 @@
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test"
-    }
-  },
   "ci": {
     "version": "10"
   },
