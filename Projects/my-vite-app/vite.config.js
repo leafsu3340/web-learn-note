@@ -15,7 +15,7 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue(), viteMockServe(), i18n],
+  plugins: [vue(), viteMockServe({}), i18n],
   resolve: {
     alias: {
       "@": resolve("./src"),

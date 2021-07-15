@@ -1,7 +1,9 @@
 <template>
-  <img alt="Vue logo" :class="classes.logo" :src="logo" />
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <img alt="Vue logo" src="@/assets/logo.png" />
+  <img alt="Vue logo" :src="logo" />
+  <div :class="classes.logo"></div>
   <HelloWorld msg="Hello Vue 3 + Vite" />
+  <input type="text" placeholder="请输入用户名" />
 
   <label>{{ t("language") }}</label>
   <select v-model="locale">
@@ -12,39 +14,36 @@
 </template>
 
 <script setup>
-// ! vue3实验特性
+import HelloWorld from "comps/HelloWorld.vue";
 // 解析为地址
-import logo from '@/assets/logo.png';
-import HelloWorld from 'comps/HelloWorld.vue';
+import logo from "@/assets/logo.png";
 
-// 加载模块css
-import classes from './App.module.css';
+// 加载模块化css
+import classes from "./App.module.css";
 
-import { getCurrentInstance, ref, computed } from 'vue';
+import { getCurrentInstance, ref, computed } from "vue";
 
 // 获取组件实例
 const ins = getCurrentInstance();
-console.log(ins);
 
 function useI18n() {
-  const locale = ref('zh');
+  const locale = ref("zh");
   // 获取资源信息
   const i18n = ins.type.i18n;
-
-  const t = () => {
-    return computed(() => i18n[locale.vue][msg]).value;
+  const t = (msg) => {
+    return computed(() => i18n[locale.value][msg]).value;
   };
   return { locale, t };
 }
 
 const { locale, t } = useI18n();
 
-fetch('/api-dev/users')
-  .then(res => res.json())
-  .then(users => console.log(users));
-
 // This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md
+// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
+
+fetch("/api-dev/users")
+  .then((res) => res.json())
+  .then((users) => console.log(users));
 </script>
 
 <i18n>
@@ -59,7 +58,6 @@ fetch('/api-dev/users')
   }
 }
 </i18n>
-
 
 <style scoped>
 img {
