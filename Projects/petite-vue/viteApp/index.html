@@ -1,13 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="/favicon.ico" />
+  <!-- <link rel="icon" href="/favicon.ico" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vite App</title>
 </head>
+
 <body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+  <!-- ! 3.也可以通过这种方式来使用 -->
+  <script type="module">
+    import { createApp, reactive } from 'https://unpkg.com/petite-vue?module'
+
+    function Counter(props) {
+      return {
+        $template: '#counter-template',
+        count: props.count,
+        increment() {
+          this.count++
+        },
+        decrement() {
+          this.count--
+        }
+      }
+    }
+    
+    const store = reactive({
+      counterer: 0,
+      incre: () => {
+        this.counterer++;
+      }
+    })
+    
+    const autofocus = (ctx) => {
+      console.log(ctx.el);
+      ctx.el.focus()
+    }
+
+
+    createApp({
+      store,
+      Counter,
+      counter: 0,
+      onMounted() {
+        console.log('mounted 1');
+      },
+      increment() {
+        this.counter++
+      },
+      decrement() {
+        this.counter--
+      }
+    }).directive(
+      'auto-focus',
+      autofocus
+    ).mount()
+  </script>
+  <!-- ! 1.第一种调用方式， 注意，需要声明defer init -->
+  <script src="https://unpkg.com/petite-vue@0.2.3/dist/petite-vue.iife.js" defer init></script>
+  <div id="app">
+    <!-- ! 需要声明作用域 -->
+    <div v-scope>
+      <input v-auto-focus />
+      <span :style="{'color': 'red'}">{{counter}}</span>
+      <button @click="increment" @mounted="onMounted">加一</button>
+      <button @click="decrement">减一</button>
+      <div v-scope="Counter({count: 0})"></div>
+    </div>
+    <template id="counter-template">
+      <button @click="decrement">-</button>
+      <span>{{ count }}</span>
+      <button @click="increment">+</button>
+    </template>
+  </div>
+  <!-- <script type="module" src="/src/main.js"></script> -->
+  <!-- ! 2.也可以通过这种方式来使用 -->
+  <!-- <script src="https://unpkg.com/petite-vue@0.2.3/dist/petite-vue.iife.js"></script>
+  <script>
+    PetiteVue.createApp().mount();
+  </script> -->
 </body>
+
 </html>
